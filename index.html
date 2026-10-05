@@ -1,0 +1,2121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bengaluru Travel Planner</title>
+
+<style>
+
+/* =========================
+   BASIC
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7f4;
+    color: #222;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   WELCOME SCREEN
+========================= */
+
+.welcome-screen {
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            rgba(7,45,34,.65),
+            rgba(7,45,34,.78)
+        ),
+        url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2000&q=90")
+        center/cover;
+
+    animation: welcomeOut 1.2s ease 5s forwards;
+}
+
+.welcome-content {
+
+    animation:
+        welcomeZoom 1.5s ease;
+}
+
+.welcome-icon {
+
+    font-size: 70px;
+
+    animation:
+        floating 2s infinite ease-in-out;
+}
+
+.welcome-content h1 {
+
+    font-size:
+        clamp(42px, 7vw, 82px);
+
+    margin-top: 15px;
+
+    animation:
+        titleIn 1.4s ease;
+}
+
+.welcome-content h1 span {
+
+    color: #ffd166;
+}
+
+.welcome-content p {
+
+    font-size: 20px;
+
+    margin-top: 15px;
+
+    opacity: 0;
+
+    animation:
+        subtitleIn 1.5s ease 1s forwards;
+}
+
+.loading {
+
+    width: 210px;
+
+    height: 5px;
+
+    margin: 35px auto;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.3);
+
+    overflow: hidden;
+}
+
+.loading::after {
+
+    content: "";
+
+    display: block;
+
+    height: 100%;
+
+    width: 0;
+
+    background: #ffd166;
+
+    animation:
+        loading 4s ease forwards;
+}
+
+@keyframes welcomeZoom {
+
+    from {
+        opacity: 0;
+        transform: scale(.65);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes floating {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes titleIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(70px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes subtitleIn {
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes loading {
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes welcomeOut {
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 1000;
+
+    padding: 17px 7%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background:
+        rgba(255,255,255,.94);
+
+    backdrop-filter:
+        blur(15px);
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.08);
+}
+
+.logo {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    color: #17644f;
+}
+
+.logo span {
+
+    color: #e67e22;
+}
+
+nav ul {
+
+    display: flex;
+
+    gap: 30px;
+
+    list-style: none;
+}
+
+nav a {
+
+    text-decoration: none;
+
+    color: #333;
+
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+nav a:hover {
+
+    color: #e67e22;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 120px 8%;
+
+    color: white;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(3,30,22,.82),
+            rgba(3,30,22,.25)
+        ),
+        url("https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2000&q=90")
+        center/cover;
+
+    animation:
+        heroBackground 12s ease-in-out infinite alternate;
+}
+
+@keyframes heroBackground {
+
+    from {
+        background-size: 100%;
+    }
+
+    to {
+        background-size: 110%;
+    }
+}
+
+.hero-content {
+
+    max-width: 700px;
+
+    animation:
+        heroIn 1.5s ease 5s both;
+}
+
+.hero small {
+
+    color: #ffd166;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+}
+
+.hero h2 {
+
+    font-size:
+        clamp(50px, 7vw, 90px);
+
+    line-height: 1;
+
+    margin: 20px 0;
+}
+
+.hero h2 span {
+
+    color: #ffd166;
+}
+
+.hero p {
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    color: #eee;
+}
+
+.hero-button {
+
+    display: inline-block;
+
+    margin-top: 30px;
+
+    padding: 15px 30px;
+
+    border-radius: 30px;
+
+    background: #e67e22;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: .4s;
+}
+
+.hero-button:hover {
+
+    background: #f39c12;
+
+    transform:
+        translateY(-6px)
+        scale(1.04);
+}
+
+@keyframes heroIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section {
+
+    padding: 100px 7%;
+}
+
+.section-title {
+
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+.section-title small {
+
+    color: #e67e22;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+.section-title h2 {
+
+    font-size: 42px;
+
+    color: #175c4b;
+
+    margin: 12px 0;
+}
+
+.section-title p {
+
+    color: #777;
+}
+
+
+/* =========================
+   CATEGORY BUTTONS
+========================= */
+
+.filters {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-bottom: 45px;
+}
+
+.filter {
+
+    border: none;
+
+    padding: 12px 24px;
+
+    border-radius: 30px;
+
+    background: white;
+
+    color: #444;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.08);
+
+    transition: .3s;
+}
+
+.filter:hover {
+
+    transform: translateY(-4px);
+
+    background: #e67e22;
+
+    color: white;
+}
+
+.filter.active {
+
+    background: #175c4b;
+
+    color: white;
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================
+   PLACE GRID
+========================= */
+
+.places {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px,1fr));
+
+    gap: 30px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+
+    background: white;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.08);
+
+    transition:
+        .5s;
+
+    opacity: 0;
+
+    transform:
+        translateY(45px)
+        scale(.95);
+
+    animation:
+        cardAppear .7s ease forwards;
+}
+
+.card.visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.card:hover {
+
+    transform:
+        translateY(-12px)
+        scale(1.02);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.16);
+}
+
+.card-image {
+
+    height: 230px;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.card-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: .7s;
+}
+
+.card:hover img {
+
+    transform: scale(1.1);
+}
+
+.tag {
+
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    padding: 7px 14px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    color: #175c4b;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.card-content {
+
+    padding: 23px;
+}
+
+.card-content h3 {
+
+    color: #175c4b;
+
+    font-size: 22px;
+
+    margin-bottom: 10px;
+}
+
+.card-content p {
+
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+.location {
+
+    margin-top: 12px;
+
+    color: #e67e22;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.map-button {
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 10px 18px;
+
+    border-radius: 20px;
+
+    background: #175c4b;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: .3s;
+}
+
+.map-button:hover {
+
+    background: #e67e22;
+
+    transform: translateX(5px);
+}
+
+@keyframes cardAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(45px)
+            scale(.9);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================
+   MAP
+========================= */
+
+.map-section {
+
+    background: #edf4ef;
+}
+
+.map-container {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 15px;
+
+    border-radius: 25px;
+
+    background: white;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.1);
+}
+
+.map-container iframe {
+
+    width: 100%;
+
+    height: 500px;
+
+    border: 0;
+
+    border-radius: 18px;
+}
+
+.map-info {
+
+    text-align: center;
+
+    padding: 25px 10px 10px;
+}
+
+.map-info h3 {
+
+    color: #175c4b;
+
+    margin-bottom: 10px;
+
+    font-size: 25px;
+}
+
+.map-info p {
+
+    color: #777;
+}
+
+
+/* =========================
+   PLANNER
+========================= */
+
+.planner {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 60px;
+
+    border-radius: 30px;
+
+    color: white;
+
+    background: #175c4b;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 50px;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.15);
+}
+
+.planner h2 {
+
+    font-size: 42px;
+
+    margin: 15px 0;
+}
+
+.planner p {
+
+    color: #d9ebe5;
+
+    line-height: 1.8;
+}
+
+.plan-list {
+
+    display: grid;
+
+    gap: 15px;
+}
+
+.plan-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 18px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,.1);
+
+    transition: .3s;
+}
+
+.plan-item:hover {
+
+    background:
+        rgba(255,255,255,.2);
+
+    transform:
+        translateX(8px);
+}
+
+.plan-icon {
+
+    font-size: 28px;
+}
+
+
+/* =========================
+   THANK YOU
+========================= */
+
+.thank-you {
+
+    min-height: 430px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: white;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(5,42,32,.75),
+            rgba(5,42,32,.85)
+        ),
+        url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=90")
+        center/cover;
+}
+
+.thank-content {
+
+    animation:
+        thankFloat 3s ease-in-out infinite;
+}
+
+.thank-icon {
+
+    font-size: 60px;
+
+    margin-bottom: 15px;
+}
+
+.thank-you h2 {
+
+    font-size:
+        clamp(38px, 6vw, 70px);
+
+    margin-bottom: 15px;
+
+    animation:
+        thankGlow 2s ease-in-out infinite alternate;
+}
+
+.thank-you h2 span {
+
+    color: #ffd166;
+}
+
+.thank-you p {
+
+    font-size: 19px;
+
+    color: #eee;
+
+    line-height: 1.7;
+}
+
+.thank-button {
+
+    display: inline-block;
+
+    margin-top: 25px;
+
+    padding: 13px 25px;
+
+    border-radius: 25px;
+
+    background: #e67e22;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.thank-button:hover {
+
+    background: #f39c12;
+
+    transform:
+        translateY(-5px);
+}
+
+@keyframes thankFloat {
+
+    0%,100% {
+
+        transform: translateY(0);
+    }
+
+    50% {
+
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes thankGlow {
+
+    from {
+
+        text-shadow:
+            0 0 5px rgba(255,209,102,.2);
+    }
+
+    to {
+
+        text-shadow:
+            0 0 25px rgba(255,209,102,.8);
+    }
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+
+    padding: 40px 20px;
+
+    text-align: center;
+
+    background: #102f28;
+
+    color: white;
+}
+
+footer h3 {
+
+    color: #ffd166;
+
+    margin-bottom: 10px;
+}
+
+footer p {
+
+    color: #b8cbc4;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:800px) {
+
+    nav ul {
+
+        display: none;
+    }
+
+    .hero {
+
+        padding:
+            120px 7%;
+    }
+
+    .hero h2 {
+
+        font-size: 55px;
+    }
+
+    .section {
+
+        padding:
+            70px 5%;
+    }
+
+    .planner {
+
+        grid-template-columns: 1fr;
+
+        padding: 35px 25px;
+    }
+
+    .planner h2 {
+
+        font-size: 34px;
+    }
+
+    .map-container iframe {
+
+        height: 400px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     WELCOME
+========================= -->
+
+<div class="welcome-screen">
+
+    <div class="welcome-content">
+
+        <div class="welcome-icon">
+            🌿
+        </div>
+
+        <h1>
+            Welcome to
+            <span>Bengaluru</span>
+        </h1>
+
+        <p>
+            Discover the Garden City of India
+        </p>
+
+        <div class="loading"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav>
+
+    <div class="logo">
+
+        Bengaluru<span>Explorer</span>
+
+    </div>
+
+    <ul>
+
+        <li>
+            <a href="#home">Home</a>
+        </li>
+
+        <li>
+            <a href="#explore">Explore</a>
+        </li>
+
+        <li>
+            <a href="#map">Map</a>
+        </li>
+
+        <li>
+            <a href="#planner">Planner</a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section
+    class="hero"
+    id="home">
+
+    <div class="hero-content">
+
+        <small>
+            YOUR BENGALURU JOURNEY STARTS HERE
+        </small>
+
+        <h2>
+
+            Explore
+
+            <span>
+                Bengaluru
+            </span>
+
+        </h2>
+
+        <p>
+
+            Discover beautiful gardens, historic palaces,
+            peaceful temples, famous landmarks and delicious
+            local food with your Bengaluru travel planner.
+
+        </p>
+
+        <a
+            href="#explore"
+            class="hero-button">
+
+            Start Exploring ↓
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     EXPLORE
+========================= -->
+
+<section
+    class="section"
+    id="explore">
+
+    <div class="section-title">
+
+        <small>
+            DISCOVER BENGALURU
+        </small>
+
+        <h2>
+            Explore Places
+        </h2>
+
+        <p>
+            Select a category to explore specific places.
+        </p>
+
+    </div>
+
+
+    <!-- CATEGORY BUTTONS -->
+
+    <div class="filters">
+
+        <button
+            class="filter active"
+            onclick="showCategory('all', this)">
+
+            🌆 All
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="showCategory('nature', this)">
+
+            🌿 Nature
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="showCategory('heritage', this)">
+
+            🏛️ Heritage
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="showCategory('temple', this)">
+
+            🛕 Temples
+
+        </button>
+
+        <button
+            class="filter"
+            onclick="showCategory('food', this)">
+
+            🍴 Food
+
+        </button>
+
+    </div>
+
+
+    <!-- PLACE CARDS -->
+
+    <div class="places">
+
+
+        <!-- NATURE 1 -->
+
+        <div
+            class="card"
+            data-category="nature">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1591018653367-7f8a2f5f6b9e?auto=format&fit=crop&w=900&q=85"
+                    alt="Lalbagh">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🌿 Nature
+                </span>
+
+                <h3>
+                    Lalbagh Botanical Garden
+                </h3>
+
+                <p>
+                    A beautiful botanical garden with
+                    flowers, trees and peaceful walking paths.
+                </p>
+
+                <div class="location">
+                    📍 Lalbagh Road
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Lalbagh+Botanical+Garden+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- NATURE 2 -->
+
+        <div
+            class="card"
+            data-category="nature">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=85"
+                    alt="Cubbon Park">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🌿 Nature
+                </span>
+
+                <h3>
+                    Cubbon Park
+                </h3>
+
+                <p>
+                    A peaceful green escape located
+                    in the centre of Bengaluru.
+                </p>
+
+                <div class="location">
+                    📍 Kasturba Road
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Cubbon+Park+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- NATURE 3 -->
+
+        <div
+            class="card"
+            data-category="nature">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85"
+                    alt="Nandi Hills">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    ⛰️ Nature
+                </span>
+
+                <h3>
+                    Nandi Hills
+                </h3>
+
+                <p>
+                    Enjoy beautiful sunrise views and
+                    a refreshing escape from the city.
+                </p>
+
+                <div class="location">
+                    📍 Nandi Hills
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Nandi+Hills+Karnataka">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- HERITAGE 1 -->
+
+        <div
+            class="card"
+            data-category="heritage">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=85"
+                    alt="Bangalore Palace">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🏛️ Heritage
+                </span>
+
+                <h3>
+                    Bangalore Palace
+                </h3>
+
+                <p>
+                    Discover royal architecture and
+                    the historic charm of Bengaluru.
+                </p>
+
+                <div class="location">
+                    📍 Vasanth Nagar
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Bangalore+Palace">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- HERITAGE 2 -->
+
+        <div
+            class="card"
+            data-category="heritage">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=85"
+                    alt="Vidhana Soudha">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🏛️ Landmark
+                </span>
+
+                <h3>
+                    Vidhana Soudha
+                </h3>
+
+                <p>
+                    One of Bengaluru's most famous
+                    architectural landmarks.
+                </p>
+
+                <div class="location">
+                    📍 Ambedkar Veedhi
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Vidhana+Soudha+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- HERITAGE 3 -->
+
+        <div
+            class="card"
+            data-category="heritage">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=85"
+                    alt="Bengaluru architecture">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🏛️ Heritage
+                </span>
+
+                <h3>
+                    Tipu Sultan's Summer Palace
+                </h3>
+
+                <p>
+                    Explore the historic palace and
+                    beautiful traditional architecture.
+                </p>
+
+                <div class="location">
+                    📍 Chamrajpet
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Tipu+Sultan+Summer+Palace+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEMPLE 1 -->
+
+        <div
+            class="card"
+            data-category="temple">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1606298855672-3efb63017be8?auto=format&fit=crop&w=900&q=85"
+                    alt="Bull Temple">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🛕 Temple
+                </span>
+
+                <h3>
+                    Bull Temple
+                </h3>
+
+                <p>
+                    Visit the historic temple and see
+                    the famous Nandi statue.
+                </p>
+
+                <div class="location">
+                    📍 Basavanagudi
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Bull+Temple+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEMPLE 2 -->
+
+        <div
+            class="card"
+            data-category="temple">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=900&q=85"
+                    alt="ISKCON Temple">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🛕 Temple
+                </span>
+
+                <h3>
+                    ISKCON Temple
+                </h3>
+
+                <p>
+                    Experience a peaceful spiritual
+                    atmosphere and beautiful architecture.
+                </p>
+
+                <div class="location">
+                    📍 Rajajinagar
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=ISKCON+Temple+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEMPLE 3 -->
+
+        <div
+            class="card"
+            data-category="temple">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=900&q=85"
+                    alt="Temple">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🛕 Temple
+                </span>
+
+                <h3>
+                    Gavi Gangadhareshwara Temple
+                </h3>
+
+                <p>
+                    Explore one of Bengaluru's historic
+                    cave temples.
+                </p>
+
+                <div class="location">
+                    📍 Gavipuram
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=Gavi+Gangadhareshwara+Temple+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOD 1 -->
+
+        <div
+            class="card"
+            data-category="food">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=85"
+                    alt="Indian Food">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🍴 Food
+                </span>
+
+                <h3>
+                    VV Puram Food Street
+                </h3>
+
+                <p>
+                    Enjoy delicious South Indian snacks
+                    and famous Bengaluru street food.
+                </p>
+
+                <div class="location">
+                    📍 VV Puram
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=VV+Puram+Food+Street+Bengaluru">
+
+                    📍 View Location
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOD 2 -->
+
+        <div
+            class="card"
+            data-category="food">
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=900&q=85"
+                    alt="South Indian food">
+
+            </div>
+
+            <div class="card-content">
+
+                <span class="tag">
+                    🍴 Food
+                </span>
+
+                <h3>
+                    South Indian Food
+                </h3>
+
+                <p>
+                    Taste authentic dosa, idli, vada and
+                    other delicious local dishes.
+                </p>
+
+                <div class="location">
+                    📍 Bengaluru
+                </div>
+
+                <a
+                    class="map-button"
+                    target="_blank"
+                    href="https://www.google.com/maps/search/?api=1&query=South+Indian+restaurants+Bengaluru">
+
+                    📍 Find Food
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MAP
+========================= -->
+
+<section
+    class="section map-section"
+    id="map">
+
+    <div class="section-title">
+
+        <small>
+            FIND YOUR WAY
+        </small>
+
+        <h2>
+            Bengaluru Location Map
+        </h2>
+
+        <p>
+            Explore Bengaluru using the interactive map.
+        </p>
+
+    </div>
+
+
+    <div class="map-container">
+
+        <iframe
+            src="https://www.google.com/maps?q=Bengaluru,Karnataka,India&output=embed"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+
+        <div class="map-info">
+
+            <h3>
+                📍 Bengaluru, Karnataka
+            </h3>
+
+            <p>
+                Use the map to explore the city and
+                discover nearby attractions.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PLANNER
+========================= -->
+
+<section
+    class="section"
+    id="planner">
+
+    <div class="planner">
+
+        <div>
+
+            <small style="color:#ffd166;font-weight:bold;">
+                SAMPLE TRAVEL PLAN
+            </small>
+
+            <h2>
+                Plan Your Bengaluru Day
+            </h2>
+
+            <p>
+                Explore nature in the morning, discover
+                Bengaluru's heritage in the afternoon,
+                visit temples in the evening and enjoy
+                delicious local food at night.
+            </p>
+
+        </div>
+
+
+        <div class="plan-list">
+
+            <div class="plan-item">
+
+                <div class="plan-icon">
+                    🌅
+                </div>
+
+                <div>
+
+                    <strong>
+                        Morning
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        Lalbagh → Breakfast → Cubbon Park
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="plan-item">
+
+                <div class="plan-icon">
+                    🏛️
+                </div>
+
+                <div>
+
+                    <strong>
+                        Afternoon
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        Bangalore Palace → Vidhana Soudha
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="plan-item">
+
+                <div class="plan-icon">
+                    🛕
+                </div>
+
+                <div>
+
+                    <strong>
+                        Evening
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        ISKCON → Bull Temple
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="plan-item">
+
+                <div class="plan-icon">
+                    🍴
+                </div>
+
+                <div>
+
+                    <strong>
+                        Night
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        VV Puram Food Street
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     THANK YOU
+========================= -->
+
+<section class="thank-you">
+
+    <div class="thank-content">
+
+        <div class="thank-icon">
+            ❤️
+        </div>
+
+        <h2>
+            Thank You for
+            <span>Visiting Bengaluru🙏!</span>
+        </h2>
+
+        <p>
+            We hope you enjoyed exploring the Garden City.
+            <br>
+            Come back soon for another beautiful journey! 🌿
+        </p>
+
+        <a
+            href="#home"
+            class="thank-button">
+
+            ↑ Back to Top
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <h3>
+        🌿 Bengaluru Explorer
+    </h3>
+
+    <p>
+        Discover • Explore • Experience Bengaluru
+    </p>
+
+    <p style="margin-top:10px;">
+        © 2026 Bengaluru Travel Planner
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =========================
+   PAGE SCROLL LOCK
+========================= */
+
+document.body.style.overflow = "hidden";
+
+setTimeout(function() {
+
+    document.body.style.overflow = "auto";
+
+}, 5200);
+
+
+/* =========================
+   IMAGE FALLBACK
+   If an image fails,
+   automatically use another
+   image instead.
+========================= */
+
+const fallbackImage =
+"https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=85";
+
+
+document.querySelectorAll(".card-image img")
+.forEach(function(image) {
+
+    image.onerror = function() {
+
+        this.onerror = null;
+
+        this.src = fallbackImage;
+
+    };
+
+});
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+function showCategory(category, button) {
+
+    const cards =
+        document.querySelectorAll(".card");
+
+    const buttons =
+        document.querySelectorAll(".filter");
+
+
+    /* Remove active from all buttons */
+
+    buttons.forEach(function(btn) {
+
+        btn.classList.remove("active");
+
+    });
+
+
+    /* Activate clicked button */
+
+    button.classList.add("active");
+
+
+    /* Show / hide cards */
+
+    cards.forEach(function(card, index) {
+
+        const cardCategory =
+            card.getAttribute("data-category");
+
+
+        if (
+            category === "all" ||
+            cardCategory === category
+        ) {
+
+            card.style.display = "block";
+
+
+            /* Re-start animation */
+
+            card.style.animation = "none";
+
+            card.offsetHeight;
+
+            card.style.animation =
+                "cardAppear .7s ease forwards";
+
+
+            card.style.animationDelay =
+                (index * 0.08) + "s";
+
+        }
+
+        else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   INITIAL CARD ANIMATION
+========================= */
+
+window.addEventListener("load", function() {
+
+    const cards =
+        document.querySelectorAll(".card");
+
+    cards.forEach(function(card, index) {
+
+        card.style.animationDelay =
+            (index * 0.08) + "s";
+
+    });
+
+});
+
+
+</script>
+
+</body>
+
+</html>
